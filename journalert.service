@@ -1,0 +1,7 @@
+[Unit]
+Description=A python tool for watching journalctl
+After=syslog.target network.target
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/python3 /etc/journalert/main.py

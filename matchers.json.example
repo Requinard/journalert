@@ -1,0 +1,14 @@
+{
+  "telegram": {
+    "token": "I am a token",
+    "recipients": [10120101012002012]
+  },
+  "matchers": [
+    {
+      "unit": "user@1000.service"
+    },
+    {
+      "unit": "systemd-logind.service"
+    }
+  ]
+}
