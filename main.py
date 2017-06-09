@@ -44,7 +44,7 @@ def create_journal_reader():
 
 def apply_config_to_journal(j, config):
     for entry in config['matchers']:
-        j.add_match(_SYSTEMD_UNIT=entry['unit'], PRIORITY=entry['priority'])
+        j.add_match(_SYSTEMD_UNIT=entry['unit'])
 
     j.seek_tail()
 
