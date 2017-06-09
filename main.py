@@ -4,6 +4,16 @@ import telepot
 import os
 from systemd import journal
 
+priority = [
+'Emergency',
+'Alert',
+'Critical',
+'Error',
+'Warning',
+'Notice',
+'Informational',
+'Debug'
+]
 class TelegramBackend:
     def __init__(self, config):
         self.config = config['telegram']
@@ -25,7 +35,7 @@ def create_journal_reader():
     # Create a reader
     j = journal.Reader()
     j.this_boot()
-    j.log_level(journal.LOG_INFO)
+    j.this_machine()
 
     # Set it to the back of the queue
     j.seek_tail()
@@ -34,15 +44,15 @@ def create_journal_reader():
 
 def apply_config_to_journal(j, config):
     for entry in config['matchers']:
-        j.add_match(_SYSTEMD_UNIT=entry['unit'])
+        j.add_match(_SYSTEMD_UNIT=entry['unit'], PRIORITY=entry['priority'])
 
-    j.seek_tail
+    j.seek_tail()
 
     return j
 
 def parse_message(message):
     try:
-        return "System: {2}\n\nService: {0}\n\nMessage: {1}".format(message['_SYSTEMD_UNIT'], message['MESSAGE'], message['_HOSTNAME']).strip()
+        return "System: {2}\nPriority: {3}\n\nService: {0}\n\nMessage: {1}".format(message['_SYSTEMD_UNIT'], message['MESSAGE'], message['_HOSTNAME'], priority[message['PRIORITY']]).strip()
     except KeyError:
         return "System: {2}\n\nService: {0}\n\nMessage: {1}".format('Unknown', message['MESSAGE'], message['_HOSTNAME']).strip()
 

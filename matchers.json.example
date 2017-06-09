@@ -5,7 +5,8 @@
   },
   "matchers": [
     {
-      "unit": "user@1000.service"
+      "unit": "user@1000.service",
+      "priority": 3
     },
     {
       "unit": "systemd-logind.service"
