@@ -42,9 +42,9 @@ def apply_config_to_journal(j, config):
 
 def parse_message(message):
     try:
-        return "{0}: {1}".format(message['_SYSTEMD_UNIT'], message['MESSAGE']).strip()
+        return "System: {2}\n\nService: {0}\n\nMessage: {1}".format(message['_SYSTEMD_UNIT'], message['MESSAGE'], message['_HOSTNAME']).strip()
     except KeyError:
-        return "unknown: {0}".format(message['MESSAGE'])
+        return "System: {2}\n\nService: {0}\n\nMessage: {1}".format('Unknown', message['MESSAGE'], message['_HOSTNAME']).strip()
 
 def get_config():
     path = os.path.abspath(os.path.dirname(__file__))
